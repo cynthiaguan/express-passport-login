@@ -15,6 +15,8 @@ import Home from './components/Home/Home';
 
 import HelloWorld from './components/HelloWorld/HelloWorld';
 
+import WrappedSignUpForm from './components/Form/signUpForm';
+
 import './styles/styles.scss';
 
 
@@ -24,6 +26,7 @@ render((
       <Switch>
         <Route exact path="/" component={Home}/>
         <Route path="/profile" component={HelloWorld}/>
+        <Route path="/signUp" component={WrappedSignUpForm} />
         <Route component={NotFound}/>
       </Switch>
     </App>

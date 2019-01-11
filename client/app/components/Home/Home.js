@@ -4,9 +4,7 @@ import {getFromSCtorage, setInStorage} from '../../utils/storage'
 import 'whatwg-fetch';
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       isLoading: false,
       token: '',
       signUpError: '',
@@ -15,104 +13,7 @@ class Home extends Component {
       signInPassword: '',
       signUpEmail: '',
       signUpPassword: '',
-    };
-    this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
-    this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
-    this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
-    this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
-    this.onSignUp = this.onSignUp.bind(this);
-    this.onSignIn = this.onSignIn.bind(this);
-  }
-
-  onTextboxChangeSignInEmail(event){
-    this.setState({
-      signInEmail: event.target.value,
-    });
-  }
-
-  onTextboxChangeSignUpEmail(event){
-    this.setState({
-      signUpEmail: event.target.value,
-    });
-  }
-
-  onTextboxChangeSignUpPassword(event){
-    this.setState({
-      signUpPassword: event.target.value,
-    });
-  }
-
-  onTextboxChangeSignInPassword(event){
-    this.setState({
-      signInPassword: event.target.value,
-    });
-  }
-
-  onSignUp() {
-    // Grab state
-    const {
-      signUpEmail,
-      signUpPassword,
-    } = this.state;
-    this.setState({
-      isLoading: true,
-    });
-    // Post request to backend
-    fetch('/api/account/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: signUpEmail,
-        password: signUpPassword,
-      }),
-    }).then(res => res.json())
-      .then(json => {
-        console.log('json', json);
-        // setInStorage('the_main_app', {token: json.token});
-        if (json.success) {
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-            signUpEmail: '',
-            signUpPassword: '',
-          });
-        } else {
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-          });
-        }
-      });
-  }
-
-  onSignIn() {
-    const {signInEmail, signInPassword} = this.state;
-    this.setState ({
-        isLoading:true
-    });
-    fetch('api/account/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: signInEmail,
-        password: signInPassword
-      })
-    }).then(res => res.json())
-    .then(res => {
-      if(res.success) {
-        setInStorage('login_token', res.token);
-        this.setState({
-          isLoading: false,
-          token:res.token
-        })
-      }
-    })
-  }
-
+  };
   render() {
     const containerStyle = {
       display:"flex",
@@ -132,12 +33,7 @@ class Home extends Component {
     const {
       isLoading,
       token,
-      signInError,
-      signInEmail,
-      signInPassword,
-      signUpEmail,
-      signUpPassword,
-      signUpError,
+      signInError
     } = this.state;
 
      if (isLoading) {
