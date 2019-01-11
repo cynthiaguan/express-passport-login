@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -32,7 +33,7 @@ module.exports = {
     rules: [
       // JS files
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         include: helpers.root('client'),
         loader: 'babel-loader'
       },
@@ -61,7 +62,25 @@ module.exports = {
             'sass-loader'
           ]
         })
-      }
+      },
+      {
+        test: /\.less$/,
+        include: path.join(__dirname, './node_modules/antd'),
+        use: ["style-loader", {loader: 'css-loader', options: {sourceMap: 1}}, "postcss-loader", "less-loader"]
+      },
+      {
+        test: /\.css$/,
+        use: [
+            {
+            loader: 'style-loader',
+            options: {}
+            },
+            {
+                loader: 'css-loader',
+                options: {}
+            }
+        ]
+      }     
     ]
   },
 

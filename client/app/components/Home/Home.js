@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import WrappedLoginForm from "../Form/loginForm"
 import {getFromSCtorage, setInStorage} from '../../utils/storage'
 import 'whatwg-fetch';
 
@@ -112,23 +113,22 @@ class Home extends Component {
     })
   }
 
-  componentDidMount() {
-    // const loginToken = getFromSCtorage('login_token');
-    // if(loginToken){
-    //   fetch(`/api/account/verify?token=${loginToken}`)
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     console.log('resss', res);
-    //     this.setState({
-    //       isLoading: false
-    //     });
-    //   });
-    // }
-  }
-//1. signIn only returns the token
-//2. it is the things that I am doing things
-//3. it is the things in the together
   render() {
+    const containerStyle = {
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      height:"100vh",
+      width: "100vw",
+      backgroundColor:"#f8f8f8"
+    };
+
+    const LoginStyle = {
+      padding:"40px", 
+      boxShadow: "0 0 100px rgba(0,0,0,.08)", 
+      backgroundColor:"rgb(248, 248, 248)"
+    }
+
     const {
       isLoading,
       token,
@@ -139,59 +139,24 @@ class Home extends Component {
       signUpPassword,
       signUpError,
     } = this.state;
-    if (isLoading) {
+
+     if (isLoading) {
       return (<div><p>Loading...</p></div>);
     }
     if (!token) {
       return (
-        <div>
+        <div style={containerStyle}>
           <div>
             {
               (signInError) ? (
                 <p>{signInError}</p>
               ) : (null)
             }
-            <p>Sign In</p>
-            <input
-              type="email"
-              placeholder="Email"
-              value={signInEmail}
-              onChange={this.onTextboxChangeSignInEmail}
-            />
-            <br />
-            <input
-              type="password"
-              placeholder="Password"
-              value={signInPassword}
-              onChange={this.onTextboxChangeSignInPassword}
-            />
-            <br />
-            <button onClick = {this.onSignIn}>Sign In</button>
+          </div> 
+          <div style={LoginStyle}>
+              <WrappedLoginForm />
           </div>
-          <br />
-          <br />
-          <div>
-            {
-              (signUpError) ? (
-                <p>{signUpError}</p>
-              ) : (null)
-            }
-            <p>Sign Up</p>
-            <input
-              type="email"
-              placeholder="Email"
-              value={signUpEmail}
-              onChange={this.onTextboxChangeSignUpEmail}
-            /><br />
-            <input
-              type="password"
-              placeholder="Password"
-              value={signUpPassword}
-              onChange={this.onTextboxChangeSignUpPassword}
-            /><br />
-            <button onClick={this.onSignUp}>Sign Up</button>
-          </div>
-       </div>
+        </div>
       );
     }
     return (

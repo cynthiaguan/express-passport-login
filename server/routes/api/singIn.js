@@ -94,6 +94,7 @@ module.exports = (app) => {
     //     })
     // })
     app.post('/api/account/signin', (req, res, next) => {
+        console.log('login');
         passport.authenticate("local", {session: false}, function(err, token, info){
              // handle succes or failure
             if(err || !token) {

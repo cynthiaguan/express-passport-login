@@ -52,6 +52,11 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.2.3"
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "antd": "^3.12.1",
+    "babel-plugin-antd": "^0.5.1",
+    "babel-plugin-import": "^1.11.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0"
   }
 }
