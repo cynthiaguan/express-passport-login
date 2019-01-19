@@ -51,11 +51,11 @@ if (isDev) {
   }));
 
   app.use(webpackHotMiddleware(compiler));
-  app.use(express.static(path.resolve(__dirname, '../dist')));
+  app.use(express.static(path.resolve(__dirname, '/public')));
 } else {
-  app.use(express.static(path.resolve(__dirname, '../dist')));
+  app.use(express.static(path.resolve(__dirname, '/public')));
   app.get('*', function (req, res) {
-    res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+    res.sendFile(path.resolve(__dirname, '/public/index.html'));
     res.end();
   });
 }

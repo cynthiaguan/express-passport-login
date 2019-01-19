@@ -17,6 +17,12 @@ const UserSchema = new mongoose.Schema({
     signUpDate: {
         type: Date,
         default: Date.now()
+    },
+    google: {
+        id: String,
+        token: String,
+        email: String,
+        name: String
     }
 });
 

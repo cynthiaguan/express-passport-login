@@ -1,9 +1,8 @@
-import {Form, Icon, Input, Button, Checkbox} from 'antd';
-import {withRouter} from "react-router-dom";
-import {getFromSCtorage, setInStorage} from '../../utils/storage';
 import React, { Component } from 'react';
-  
-  class NormalLoginForm extends Component {
+import {Form, Icon, Input, Button, Checkbox} from 'antd';
+import {withRouter, Link} from "react-router-dom";
+import {getFromSCtorage, setInStorage} from '../../utils/storage';
+class NormalLoginForm extends Component {
     state = {
         isLoading: false,
         token: '',
@@ -71,6 +70,10 @@ import React, { Component } from 'react';
                 <Button type="primary" htmlType="submit" style={{width:"100%"}}>
                     Log in
                 </Button>
+                <div>
+                    Or  <a href="/auth/google"><img src= "/assets/img/google.png"/></a>
+                </div>
+                <div>Or <Link to="/signUp">register now!</Link></div>
             </Form.Item>
         </Form>
       );

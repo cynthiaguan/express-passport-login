@@ -4,6 +4,9 @@ const User = require('../models/User');
 const passportJWT = require("passport-jwt");
 const JWTStrategy   = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
+const Google = require('./config');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
 
 module.exports =  (passport)  => {
     
@@ -62,5 +65,32 @@ module.exports =  (passport)  => {
             }
         })
     }))
+
+    // Use the GoogleStrategy within Passport.
+    passport.use(new GoogleStrategy({
+        clientID: Google.googleID,
+        clientSecret: Google.googleSecret,
+        callbackURL: "/auth/google/callback"
+      },
+      function(accessToken, refreshToken, profile, done) {
+            console.log('google login successfully');
+            console.log(profile)
+            User.findOne({ "google.id": profile.id }, function (err, user) {
+                if(err) return done(err);
+                if(user) return done(null, user);
+                let newUser = new User();
+                newUser.google.id = profile.id;
+                newUser.google.token = accessToken;
+                newUser.google.name = profile.displayName;
+                if(typeof profile.emails != 'undefined' && profile.emails.length > 0)
+                    newUser.google.email = profile.emails[0].value;
+                //
+                newUser.save(function(err){
+                    if(err) return done(err);
+                    return done(null, newUser)
+                })
+            });
+      }
+    ));
 }
 
