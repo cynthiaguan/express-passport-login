@@ -4,7 +4,7 @@ const User = require('../models/User');
 const passportJWT = require("passport-jwt");
 const JWTStrategy   = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
-const Google = require('./config');
+const Config = require('./config');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 
@@ -41,7 +41,7 @@ module.exports =  (passport)  => {
                         return cb(null, false, {message: "User not existing"});
                     }
                     //return cb(null, user._id, {message: "User logins sucessfully"});
-                    const token = jwt.sign({email:user.email}, "LOGIN_DEMO_SECRET");
+                    const token = jwt.sign({email:user.email}, Config.jwtKey);
                     return cb(null, token, {message: "User Login"})
                 })
                 .catch(err => {
@@ -52,7 +52,7 @@ module.exports =  (passport)  => {
     
     passport.use(new JWTStrategy({
         jwtFromRequest:ExtractJWT.fromAuthHeaderAsBearerToken(),
-        secretOrKey: "LOGIN_DEMO_SECRET"
+        secretOrKey: Config.jwtKey
     }, (jwt_payload, done) => {
         User.findOne({email: jwt_payload.email}, (err, user) => {
             if(err){
@@ -68,8 +68,8 @@ module.exports =  (passport)  => {
 
     // Use the GoogleStrategy within Passport.
     passport.use(new GoogleStrategy({
-        clientID: Google.googleID,
-        clientSecret: Google.googleSecret,
+        clientID: Config.googleID,
+        clientSecret: Config.googleSecret,
         callbackURL: "/auth/google/callback"
       },
       function(accessToken, refreshToken, profile, done) {
